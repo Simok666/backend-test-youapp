@@ -1,5 +1,5 @@
 # docker-compose.yml
-version: '26'
+version: '3'
 services:
   app:
     container_name: nestjs-chat-app
@@ -10,8 +10,10 @@ services:
       - "3000:3000"
     depends_on:
       - mongo
+      - rabbitmq
     environment:
       MONGO_URI: mongodb://mongo:27017/nestjs-chat-app
+      RABBITMQ_URI: amqp://root:root@rabbitmq:5672
   mongo:
     image: mongo:latest
     container_name: mongo
@@ -19,6 +21,18 @@ services:
       - "27017:27017"
     volumes:
       - mongo-data:/data/db
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    hostname: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    env_file:
+      - .env  
+    # environment:
+    #   RABBITMQ_DEFAULT_USER: root
+    #   RABBITMQ_DEFAULT_PASS: root
 
 volumes:
   mongo-data:
