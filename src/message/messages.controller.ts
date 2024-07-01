@@ -2,12 +2,12 @@ import { Controller, Post, Body, Get, Query, UseGuards } from '@nestjs/common';
 import { MessagesService } from './messages.service';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
-@Controller('messages')
+@Controller('api')
 export class MessagesController {
   constructor(private readonly messagesService: MessagesService) {}
 
   @UseGuards(JwtAuthGuard)
-  @Post('send')
+  @Post('sendMessage')
   async sendMessage(
     @Body('senderId') senderId: string,
     @Body('receiverId') receiverId: string,
@@ -18,7 +18,7 @@ export class MessagesController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Get()
+  @Get('viewMessages')
   async getMessages(@Query('receiverId') receiverId: string) {
     const messages = await this.messagesService.getMessages(receiverId);
     return { messages };

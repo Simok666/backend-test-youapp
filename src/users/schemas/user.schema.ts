@@ -1,4 +1,4 @@
-import { Schema, Document } from 'mongoose';
+import { Schema, Document, model } from 'mongoose';
 
 export const UserSchema = new Schema({
   username: { type: String, required: true, unique: true },
@@ -36,3 +36,5 @@ export interface User extends Document {
     weight: number;
   };
 }
+
+export const UserModel = model<User>('User', UserSchema);

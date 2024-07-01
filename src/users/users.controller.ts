@@ -15,7 +15,7 @@ import { CreateProfileDto } from './dto/create-profile.dto';
 import { UpdateProfileDto } from './dto/update-profile.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
-@Controller('users')
+@Controller('api')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
@@ -30,7 +30,7 @@ export class UsersController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Post('profile')
+  @Post('createProfile')
   async createProfile(
     @Request() req,
     @Body() createProfileDto: CreateProfileDto,
@@ -39,13 +39,13 @@ export class UsersController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Get('profile')
+  @Get('getProfile')
   async getProfile(@Request() req) {
     return this.usersService.getProfile(req.user._id);
   }
 
   @UseGuards(JwtAuthGuard)
-  @Put('profile')
+  @Put('updateProfile')
   async updateProfile(
     @Request() req,
     @Body() updateProfileDto: UpdateProfileDto,
@@ -54,7 +54,7 @@ export class UsersController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Delete('profile')
+  @Delete('deleteProfile')
   async deleteProfile(@Request() req) {
     return this.usersService.deleteProfile(req.user._id);
   }
